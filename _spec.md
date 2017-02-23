@@ -126,6 +126,7 @@ A web-friendly display name is camel-cased with spaces and punctuation supported
 | [dashboard_client](#DObject)  |  object |  Contains the data necessary to activate the Dashboard SSO feature for this service |
 | plan\_updateable  | boolean  |  Whether the service supports upgrade/downgrade for some plans. Please note that the misspelling of the attribute <code>plan\_updatable</code> to <code>plan\_updateable</code> was done by mistake. We have opted to keep that misspelling instead of fixing it and thus breaking backward compatibility.  |
 | [plans*](#PObject) | array-of-objects | A list of plans for this service, schema is defined below.|  |
+| [schemas*](#SObject) | array-of-schemaset-objects | An ordered array of schemasets applicable for this service. The first schema-set matching the criteria applies. Schemasets should therefore be ordered from most specific to less specific. |
 
 ##### Dashboard Client Object <a name="DObject"></a> #####
 
@@ -146,6 +147,24 @@ A web-friendly display name is camel-cased with spaces and punctuation supported
 |  metadata | object  | A list of metadata for a service plan.  |
 | free  | boolean  | When false, instances of this plan have a cost. The default is true  |
 |  bindable | boolean  |  Specifies whether instances of the service plan can be bound to applications. This field is optional. If specified, this takes precedence over the <tt>bindable</tt> attribute of the service. If not specified, the default is derived from the service. |
+
+
+##### Schema Object <a name="SObject"></a> #####
+
+|  Response field | Type  | Description  |
+|---|---|---|
+| [applies-when*](#AWObject)  | object  | Defines the context in which a schema should apply through a list of selectors. The selectors should all match for the associated schemas to apply. There might be zero or more selectors. A context with no selectors always matches. |
+| parameters | JSON schema object | The schema definitions for the input parameters. Schema definitions must be valid [JSON Schema draft v4](http://json-schema.org/). It is recommended for broker authors explicitly mention the JSON schema draft4 version, as this will prevent breaking changes when in the future the OSB spec starts supporting draft v6 JSON schema, with low readability impact. Each input parameter is expressed as property within a json object. Therefore, a service supporting no input parameters should result into a schema only validating an empty object `{}`. |
+
+
+##### Applies-when Object <a name="AWObject"></a> #####
+
+|  Response field | Type  | Description  |
+|---|---|---|
+| service-plan-id | guid  | Selects a service plan offering by its service plan id. If this field is missing then the schema will apply to all plans. |
+| method | string | Selects the method to invoke on each object. Valid values are "create" and "update". If this field is missing then the schema will apply to all methods. |
+| object | string | Selects the type of object on which schema should apply. Valid values are "service\_instance", "service\_binding".  If this field is missing then the schema will apply to all objects. |
+
 
 
 \* Fields with an asterisk are required.
@@ -230,6 +249,22 @@ A web-friendly display name is camel-cased with spaces and punctuation supported
         }]
       }
     }]
+  }],
+  "schemas": [{
+    "applies-when": {
+      "method": "create",
+      "object": "service_instance"
+    },
+    "parameters": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+        "billing-account": {
+          "description": "Billing account number used to charge use of shared fake server. Required in all plans",
+          "type": "String"
+        }
+      }
+    }
   }]
 }
 </pre>
