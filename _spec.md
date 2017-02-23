@@ -126,7 +126,7 @@ A web-friendly display name is camel-cased with spaces and punctuation supported
 | [dashboard_client](#DObject)  |  object |  Contains the data necessary to activate the Dashboard SSO feature for this service |
 | plan\_updateable  | boolean  |  Whether the service supports upgrade/downgrade for some plans. Please note that the misspelling of the attribute <code>plan\_updatable</code> to <code>plan\_updateable</code> was done by mistake. We have opted to keep that misspelling instead of fixing it and thus breaking backward compatibility.  |
 | [plans*](#PObject) | array-of-objects | A list of plans for this service, schema is defined below.|  |
-| [schemas*](#SObject) | array-of-schemaset-objects | An ordered array of schemasets applicable for this service. The first schema-set matching the criteria applies. Schemasets should therefore be ordered from most specific to less specific. |
+| [schemas](#SObject) | array-of-schemaset-objects | An ordered array of schemasets applicable for this service. The first schema-set matching the criteria applies. Schemasets should therefore be ordered from most specific to less specific. |
 
 ##### Dashboard Client Object <a name="DObject"></a> #####
 
