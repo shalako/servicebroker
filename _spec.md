@@ -265,6 +265,36 @@ A web-friendly display name is camel-cased with spaces and punctuation supported
         }
       }
     }
+  },{
+    "applies-when": {
+      "method": "update",
+      "object": "service_instance"
+    },
+    "parameters": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+        "billing-account": {
+          "description": "Billing account number used to charge use of shared fake server. Required in all plans",
+          "type": "String"
+        }
+      }
+    }
+  },{
+    "applies-when": {
+      "method": "create",
+      "object": "service_binding"
+    },
+    "parameters": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+        "billing-account": {
+          "description": "Billing account number used to charge use of shared fake server. Required in all plans",
+          "type": "String"
+        }
+      }
+    }
   }]
 }
 </pre>
